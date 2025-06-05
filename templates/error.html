@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>No ticker found</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .error-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            animation: slideIn 0.5s ease-in-out;
+            border: 3px solid #ff4d4f;
+            box-shadow: 0 0 15px rgba(255, 77, 79, 0.5);
+        }
+        .error-message {
+            font-size: 1.2em;
+            color: #ff4d4f;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #00c4b4, #00a1d6);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 196, 180, 0.3);
+        }
+        a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 196, 180, 0.5);
+        }
+        a:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 196, 180, 0.2);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 2.2em;
+            }
+            .error-container {
+                padding: 20px;
+                margin: 15px;
+            }
+            .error-message {
+                font-size: 1em;
+            }
+            a {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Invalid Ticker</h1>
+    <div class="error-container">
+        <p class="error-message">{{ error }}</p>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

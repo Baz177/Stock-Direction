@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .result {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 1200px;
+            min-height: 600px;
+            text-align: center;
+            animation: slideIn 0.5s ease-in-out;
+            border: 3px solid;
+            border-color: {{ '#00c4b4' if direction == 'Up' else '#ff4d4f' }};
+            box-shadow: 0 0 15px {{ 'rgba(0, 196, 180, 0.5)' if direction == 'Up' else 'rgba(255, 77, 79, 0.5)' }};
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .result p {
+            font-size: 1.1em;
+            color: #333;
+            margin: 10px 0;
+            font-weight: 400;
+        }
+        .result p strong {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        .highlight-prediction {
+            font-size: 1.3em;
+            font-weight: 500;
+            background: {{ 'rgba(0, 196, 180, 0.1)' if direction == 'Up' else 'rgba(255, 77, 79, 0.1)' }};
+            color: {{ '#00c4b4' if direction == 'Up' else '#ff4d4f' }};
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: inline-block;
+            animation: pulse 1s infinite ease-in-out;
+            box-shadow: 0 2px 10px {{ 'rgba(0, 196, 180, 0.3)' if direction == 'Up' else 'rgba(255, 77, 79, 0.3)' }};
+        }
+        .highlight-prediction strong {
+            color: {{ '#00c4b4' if direction == 'Up' else '#ff4d4f' }};
+            font-weight: 700;
+        }
+        .chart-container {
+            width: 100%;
+            height: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .chart-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .error {
+            font-size: 1.2em;
+            color: #ff4d4f;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        a.button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #00c4b4, #00a1d6);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 196, 180, 0.3);
+        }
+        a.button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 196, 180, 0.5);
+        }
+        a.button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 196, 180, 0.2);
+        }
+        a.article-link {
+            color: #333;
+            text-decoration: underline;
+            font-weight: 400;
+            transition: color 0.2s ease;
+        }
+        a.article-link:hover {
+            color: {{ '#00c4b4' if direction == 'Up' else '#ff4d4f' }};
+        }
+        /* New CSS for change text color */
+        .change-up {
+            color: #00c4b4; /* Green color for positive change */
+            font-weight: 700;
+        }
+        .change-down {
+            color: #ff4d4f; /* Red color for negative change */
+            font-weight: 700;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            .result {
+                padding: 20px;
+                width: 95%;
+                min-height: 500px;
+            }
+            .result p {
+                font-size: 1em;
+            }
+            .highlight-prediction {
+                font-size: 1.1em;
+                padding: 8px 12px;
+            }
+            .chart-container {
+                height: 400px;
+            }
+            a.button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+            a.article-link {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Prediction Result</h1>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% else %}
+        <div class="result">
+            <p><strong>Ticker:</strong> {{ ticker | default('N/A', true) }}</p>
+            <p><strong>Company:</strong> {{ company_name | default('N/A', true) }} </p>
+            <p><strong>Closing Price for {{ today | default('N/A', true) }}:</strong> ${{ close_price | round(4) | default('N/A', true) }} -----
+                <span class="{{ 'change-up' if change > 0 else 'change-down' }}">
+                    {% if change > 0 %}
+                        Up
+                    {% else %}
+                        Down
+                    {% endif %}
+                    {{ change | round(2) | default('N/A', true) }}%
+                </span>
+            </p>
+            <p class="highlight-prediction"><strong>Predicted Direction for {{ date | default('N/A', true) }} is</strong> {{ direction | default('N/A', true) }}</p>
+            <p><strong>News Sentiment:</strong> {{ news_sentiment | default('N/A', true) }}.</p>
+            {% if sentiment in ['Positive', 'Negative'] %}
+                <p><strong>Generally</strong> {{ news_sentiment | default('N/A', true) }}.</p>
+                <p><strong>As per article:</strong> <a class="article-link" href="{{ link | default('#', true) }}" target="_blank">{{ title | default('N/A', true) }}</a> <strong>Dated</strong> {{ news_date | default('N/A', true) }} at {{ time | default('N/A', true) }} 24hr market time</p>
+            {% endif %}
+            <div class="chart-container">
+                <img src="{{ url_for('static', filename='bollinger_bands.png') }}?{{ 'now' | default('0', true) }}" alt="Bollinger Bands">
+            </div>
+            <p><a class="button" href="/">Back to Home</a></p>
+        </div>
+    {% endif %}
+</body>
+</html>

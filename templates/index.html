@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Direction Classifier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .form-container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        label {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #333;
+            display: block;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #00c4b4;
+            box-shadow: 0 0 8px rgba(0, 196, 180, 0.3);
+            outline: none;
+        }
+        button {
+            background: linear-gradient(90deg, #00c4b4, #00a1d6);
+            color: #ffffff;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 196, 180, 0.3);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 196, 180, 0.5);
+        }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 196, 180, 0.2);
+        }
+        /* Loading Spinner Styles */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #00c4b4;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .loading-text {
+            color: #ffffff;
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-top: 20px;
+            animation: fadeText 1.5s ease-in-out infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeText {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        @media (max-width: 500px) {
+            .form-container {
+                padding: 25px;
+                margin: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            input[type="text"], button {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Tomorrow's Stock Direction</h1>
+        <form id="predict-form" action="/predict" method="POST">
+            <label for="ticker">Enter Stock Ticker (e.g., AAPL):</label>
+            <input type="text" id="ticker" name="ticker" required>
+            <button type="submit">Predict Direction</button>
+        </form>
+    </div>
+    <div class="loading-overlay" id="loading-overlay">
+        <div>
+            <div class="spinner"></div>
+            <div class="loading-text">Predicting...</div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('predict-form').addEventListener('submit', function(event) {
+            // Show the loading overlay
+            document.getElementById('loading-overlay').style.display = 'flex';
+        });
+    </script>
+</body>
+</html>
